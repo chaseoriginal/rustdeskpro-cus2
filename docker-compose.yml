@@ -1,0 +1,30 @@
+services:
+  hbbs:
+    container_name: ${scontainer_name}
+    image: docker.io/rustdesk/rustdesk-server-pro:latest
+    command: hbbs
+    volumes:
+      - /var/lib/docker/volumes/${scontainer_name}/data:/root
+    network_mode: "host"
+    #ports:
+    #  - ${IP}:${porta}:${porta}/tcp
+    #  - ${IP}:${portb}:${portb}/tcp
+    #  - ${IP}:${portc}:${portc}
+    #  - ${IP}:${portd}:${portd}/tcp
+
+    depends_on:
+      - hbbr
+    restart: unless-stopped
+
+  hbbr:
+    container_name: ${rcontainer_name}
+    image: docker.io/rustdesk/rustdesk-server-pro:latest
+    command: hbbr
+    volumes:
+      - /var/lib/docker/volumes/${rcontainer_name}:/root
+    network_mode: "host"
+    #ports:
+    #  - ${IP}:${porte}:${porte}/tcp
+    #  - ${IP}:${portf}:${portf}/tcp
+
+    restart: unless-stopped
